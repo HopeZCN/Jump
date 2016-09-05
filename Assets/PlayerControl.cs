@@ -25,53 +25,64 @@ public class PlayerControl : MonoBehaviour {
     void FixedUpdate()
     {
         //print("Hello,Update" + Time.deltaTime.ToString());
-        //float h = Input.GetAxis("Horizontal");
+        float h = Input.GetAxis("Horizontal");
         //float j = Input.GetAxis("Vertical");
 
-        float h;
-        if (Input.GetMouseButton(0))
-        {
-            Vector3 dir = Input.mousePosition - lastMousePosition;
-            h = dir.normalized.x;
-        }
-        else
-        {
-            h = 0;
-        }
+        //float h;
+        //if (Input.GetMouseButton(0))
+        //{
+        //    Vector3 dir = Input.mousePosition - lastMousePosition;
+        //    h = dir.normalized.x;
+        //}
+        //else
+        //{
+        //    h = 0;
+        //}
         lastMousePosition = Input.mousePosition;
         anim.SetFloat("Speed", Mathf.Abs(h));
 
-        if ((h > 0 && this.transform.localScale.x < 0) || ( h < 0 && this.transform.localScale.x >0 ))
-        {
-            this.transform.localScale = new Vector3 (this.transform.localScale.x *-1.0f,this.transform.localScale.y,this.transform.localScale.z);
-        }
-
         //print(h.ToString());
         Rigidbody2D body = this.GetComponent<Rigidbody2D>();
-        if (Mathf.Abs(body.velocity.x) <= maxSpeed)
-        {
-            body.AddForce(h * Vector2.right * maxForce);
-            //body.AddForce(j * Vector2.up * maxForce);
-        }
-
-        if (Mathf.Abs(body.velocity.x) > maxSpeed)
-        {
-            body.velocity = new Vector2(Mathf.Sign(body.velocity.x) * maxSpeed, body.velocity.y);
-        }
 
         isJumping = !Physics2D.Linecast(this.transform.position, this.transform.FindChild("groundCheck").position, 1 << LayerMask.NameToLayer("ground"));
-
-        //if (!isJumping && Input.GetButtonDown("Jump"))
-        if (Input.GetMouseButtonDown(0))
+        if (!isJumping)
         {
-            mouseDownPosition = Input.mousePosition;
+            if (Mathf.Abs(body.velocity.x) <= maxSpeed)
+            {
+                body.AddForce(h * Vector2.right * maxForce);
+                //body.AddForce(j * Vector2.up * maxForce);
+            }
+
+            if (Mathf.Abs(body.velocity.x) > maxSpeed)
+            {
+                body.velocity = new Vector2(Mathf.Sign(body.velocity.x) * maxSpeed, body.velocity.y);
+            }
+
+            if ((h > 0 && this.transform.localScale.x < 0) || (h < 0 && this.transform.localScale.x > 0))
+            {
+                this.transform.localScale = new Vector3(this.transform.localScale.x * -1.0f, this.transform.localScale.y, this.transform.localScale.z);
+            }
         }
+
+        if (!isJumping && Input.GetButtonDown("Jump"))
+        {
+            body.AddForce(new Vector2(0, jumpForce));
+        }
+
+
+
+
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    mouseDownPosition = Input.mousePosition;
+        //}
         
-        if (!isJumping && Input.GetMouseButtonUp(0) && mouseDownPosition == Input.mousePosition)
-        {
-            body.AddForce(new Vector2(0,jumpForce));
-            anim.SetTrigger("Jump");
+        //if (!isJumping && Input.GetMouseButtonUp(0) && mouseDownPosition == Input.mousePosition)
+        //{
+        //    body.AddForce(new Vector2(0,jumpForce));
+        //    anim.SetTrigger("Jump");
 
-        }
+        //}
     }
 }
