@@ -5,6 +5,7 @@ public class PlayerControl : MonoBehaviour {
     public float maxForce = 356;
     public float maxSpeed = 200;
     public float jumpForce = 500;
+    public int score = 0;
     private bool isJumping;
     private Vector3 lastMousePosition;
     private Vector3 mouseDownPosition;

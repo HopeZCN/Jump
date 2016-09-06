@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-    public float enemySpeed = 5.0f;
+    public float enemySpeed = 2.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour {
 
     void FixedUpdate()
     {
-        Collider2D zhuang = Physics2D.OverlapPoint(GameObject.Find("frontCheck").transform.position, 1 << LayerMask.NameToLayer("wall"));
+        Collider2D zhuang = Physics2D.OverlapPoint(this.transform.Find("frontCheck").position, 1 << LayerMask.NameToLayer("wall"));
         if (zhuang != null)
         {
             this.transform.localScale = new Vector3(this.transform.localScale.x * -1, this.transform.localScale.y, this.transform.localScale.z);
