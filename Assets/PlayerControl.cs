@@ -58,10 +58,11 @@ public class PlayerControl : MonoBehaviour {
                 body.velocity = new Vector2(Mathf.Sign(body.velocity.x) * maxSpeed, body.velocity.y);
             }
 
-            if ((h > 0 && this.transform.localScale.x < 0) || (h < 0 && this.transform.localScale.x > 0))
-            {
-                this.transform.localScale = new Vector3(this.transform.localScale.x * -1.0f, this.transform.localScale.y, this.transform.localScale.z);
-            }
+
+        }
+        if ((h > 0 && this.transform.localScale.x < 0) || (h < 0 && this.transform.localScale.x > 0))
+        {
+            this.transform.localScale = new Vector3(this.transform.localScale.x * -1.0f, this.transform.localScale.y, this.transform.localScale.z);
         }
 
         if (!isJumping && Input.GetButtonDown("Jump"))
